@@ -6,7 +6,7 @@ const MovieItem = (props: MovieItemProps) => {
     const item = props.movie;
 
     return (
-        <TouchableOpacity activeOpacity={0.7}
+        <TouchableOpacity activeOpacity={0.7} onPress={()=>props.onClick(item)}
             style={{ width: props.width, height: props.height, marginHorizontal: 10 }}>
             <Image
                 source={{ uri: item.image_url }}
@@ -25,7 +25,8 @@ const MovieItem = (props: MovieItemProps) => {
 export type MovieItemProps = {
     width: number,
     height: number,
-    movie: Movie
+    movie: Movie,
+    onClick:(movie:Movie)=>void
 }
 
 export default MovieItem;

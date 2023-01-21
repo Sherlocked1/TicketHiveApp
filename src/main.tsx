@@ -1,22 +1,25 @@
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { NavigationContainer } from "@react-navigation/native";
-import { TabOptions } from "./features/core/constants/tab_style";
-import Home from "./features/home/page/home"
+import { createStackNavigator } from "@react-navigation/stack";
+import Movie from "./features/core/models/movie";
+import MovieDetails from "./features/movie_details/page/movie_details";
+import Tabs from "./tabs";
 
 const Main = () => {
-    const Tab = createBottomTabNavigator<RootTabParams>();
+    const Stack = createStackNavigator<RootStackParams>();
 
     return (
         <NavigationContainer>
-            <Tab.Navigator screenOptions={TabOptions}>
-                <Tab.Screen options={{headerShown:false}} component={Home} name="Home"/>
-            </Tab.Navigator>
+            <Stack.Navigator>
+                <Stack.Screen options={{headerShown:false}} component={Tabs} name="Tabs"/>
+                <Stack.Screen component={MovieDetails} name="Movie"/>
+            </Stack.Navigator>
         </NavigationContainer>
     )
 }
 
-export type RootTabParams = {
-    Home:undefined,
+export type RootStackParams = {
+    Tabs:undefined,
+    Movie:{movie:Movie}
 }
 
 export default Main;

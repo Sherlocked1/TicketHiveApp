@@ -1,118 +1,91 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- */
+import { FlatList, Image, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, useWindowDimensions, View } from "react-native";
+import { MyField } from "./src/features/core/components/my_field";
+import Neumorphism from "./src/features/core/components/neu_view";
+import StyledText from "./src/features/core/components/styled_text";
 
-import React from 'react';
-import type {PropsWithChildren} from 'react';
-import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
-} from 'react-native';
+const App = () => {
 
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
+  const data = [
+    { name: 'Black panther' },
+    { name: 'Avatar' },
+    { name: '' },
+    { name: '' },
+  ]
 
-type SectionProps = PropsWithChildren<{
-  title: string;
-}>;
+  const { width } = useWindowDimensions();
 
-function Section({children, title}: SectionProps): JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
-  return (
-    <View style={styles.sectionContainer}>
-      <Text
-        style={[
-          styles.sectionTitle,
-          {
-            color: isDarkMode ? Colors.white : Colors.black,
-          },
-        ]}>
-        {title}
-      </Text>
-      <Text
-        style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
-        ]}>
-        {children}
-      </Text>
-    </View>
-  );
-}
 
-function App(): JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
-
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
-
-  return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={backgroundStyle.backgroundColor}
+  const renderMovie = (item: string) =>
+    <TouchableOpacity activeOpacity={0.7} style={{ width: 150, height: 200, marginHorizontal: 10, borderRadius: 20 }}>
+      <Image
+        source={{ uri: "https://m.media-amazon.com/images/M/MV5BY2FlN2U2NzMtOWE2Ni00MWIyLTk3YzQtM2RjNDFkNTlhYTZmXkEyXkFqcGdeQXVyMTUzMTg2ODkz._V1_.jpg" }}
+        style={{ flex: 1, backgroundColor: '#3e3', borderRadius: 20 }}
       />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <Header />
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
-          <Section title="Step One">
-            Edit <Text style={styles.highlight}>App.tsx</Text> to change this
-            screen and then come back to see your edits.
-          </Section>
-          <Section title="See Your Changes">
-            <ReloadInstructions />
-          </Section>
-          <Section title="Debug">
-            <DebugInstructions />
-          </Section>
-          <Section title="Learn More">
-            Read the docs to discover what to do next:
-          </Section>
-          <LearnMoreLinks />
-        </View>
-      </ScrollView>
+
+      <StyledText fontWeight='SemiBold' fontSize={16}>{item}</StyledText>
+      <StyledText fontWeight='ExtraLight' fontSize={14}>
+        10 august, 2022 - 14:00
+      </StyledText>
+    </TouchableOpacity>
+
+  const renderPopularMovie = (item: string) =>
+    <TouchableOpacity activeOpacity={0.7} style={{ width: 100, height: 200, marginHorizontal: 10, borderRadius: 20 }}>
+      <Image
+        source={{ uri: "https://m.media-amazon.com/images/M/MV5BY2FlN2U2NzMtOWE2Ni00MWIyLTk3YzQtM2RjNDFkNTlhYTZmXkEyXkFqcGdeQXVyMTUzMTg2ODkz._V1_.jpg" }}
+        style={{ flex: 1, backgroundColor: '#3e3', borderRadius: 20 }}
+      />
+
+      <StyledText fontWeight='SemiBold' numberOfLines={1} fontSize={16}>{item}</StyledText>
+      <StyledText fontWeight='ExtraLight' numberOfLines={1} fontSize={14}>
+        10 august, 2022 - 14:00
+      </StyledText>
+    </TouchableOpacity>
+
+
+
+  return (
+    <SafeAreaView style={styles.container}>
+
+      <View style={{ padding: 10 }}>
+        <StyledText fontSize={24} fontWeight='SemiBold'>
+          Good morning ,
+        </StyledText>
+        <StyledText fontSize={24} fontWeight='Bold'>
+          Mohammed Sayed
+        </StyledText>
+        <Neumorphism style={[styles.neuView,{margin:20}]}>
+          <MyField icon={{ name: 'search', size: 30 }} placeholder="Search"
+            textColor="black" style={{ height: 60 }} />
+        </Neumorphism>
+
+        <StyledText fontSize={24} fontWeight='Bold' style={{ marginVertical: 10 }}>
+          Recommended
+        </StyledText>
+
+        <FlatList showsHorizontalScrollIndicator={false} data={data} horizontal renderItem={(data) => renderMovie(data.item.name)} />
+        
+        <StyledText fontSize={24} fontWeight='Bold' style={{ marginVertical: 10 }}>
+          Popular
+        </StyledText>
+        
+        <FlatList showsHorizontalScrollIndicator={false} data={data} horizontal renderItem={(data) => renderPopularMovie(data.item.name)} />
+
+      </View>
     </SafeAreaView>
-  );
+  )
 }
 
 const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
+  neuView: {
+    backgroundColor: "white",
+    borderRadius: 20,
   },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-  },
-  highlight: {
-    fontWeight: '700',
-  },
-});
+
+  container: {
+    flex: 1,
+    padding: 10,
+  }
+
+})
 
 export default App;

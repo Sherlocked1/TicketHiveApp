@@ -1,18 +1,23 @@
-import { View } from "react-native"
+import { Pressable, View } from "react-native"
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { RootStackParams } from "../../../main";
 import { SafeAreaView } from "react-native-safe-area-context";
 import UIColors from "../../core/constants/color_constants";
 import StyledText from "../../core/components/styled_text";
 import MyButton from "../../core/components/my_button";
-import { useState } from "react";
-import Selection_List from "../components/selection_buttons";
+import { LegacyRef, useRef, useState } from "react";
+import Selection_List from "../components/selection_list";
 import { StyleSheet } from "react-native";
+import Video from 'react-native-video';
+import MovieScreen from "../components/movie_screen";
+import { TapGestureHandler } from "react-native-gesture-handler";
 
 type Props = NativeStackScreenProps<RootStackParams, 'Movie'>;
 
 
 const MovieDetails = ({ navigation, route }: Props) => {
+
+    const player = useRef<Video>(null);
 
     const datesMap: { [key: string]: string[] } = {
         "12 thu": ["12:00", '13:00', "14:00", '15:00'],
@@ -38,13 +43,13 @@ const MovieDetails = ({ navigation, route }: Props) => {
         if (selectedTime != selectedIndex) {
             setSelectedTime(selectedIndex);
         }
-        
+
     }
 
     const timeCell = (item: string, index?: number) => {
         const color = index == selectedTime ? UIColors.primary : UIColors.secondary
         return (
-            <StyledText style={{ color: color }} fontSize={18} fontWeight={'Bold'}>{item}</StyledText>
+            <StyledText style={{ color: color }} fontSize={18} fontWeight={'Medium'}>{item}</StyledText>
         )
     }
 
@@ -54,23 +59,37 @@ const MovieDetails = ({ navigation, route }: Props) => {
 
         return (
             <>
-                <StyledText style={{ color: color }} fontSize={24} fontWeight={'Bold'}>{arr[0]}</StyledText>
-                <StyledText style={{ color: color }} fontSize={20} fontWeight={'Regular'}>{arr[1]}</StyledText>
+                <StyledText style={{ color: color }} fontSize={22} fontWeight={'Bold'}>{arr[0]}</StyledText>
+                <StyledText style={{ color: color }} fontSize={18} fontWeight={'Medium'}>{arr[1]}</StyledText>
             </>
         )
     }
 
+    const openFullScreenPlay = () => {
+        console.log('activated')
+        player.current?.presentFullscreenPlayer();
+    }
     return (
-        <View style={{ flex: 1, backgroundColor: UIColors.secondary }}>
+        <View style={styles.container}>
 
             {/* Theater */}
             <View style={{ flex: 1 }}>
-
+                <Pressable style={{ flex: 1 }} onLongPress={openFullScreenPlay}>
+                    <MovieScreen>
+                        <Video style={{ flex: 1 }} resizeMode='cover'
+                            source={require('../../../../assets/videos/test.mp4')}
+                            ref={player}
+                            onError={(error) => console.log('video error', error)}
+                            onBuffer={(data) => console.log(data)
+                            }
+                        />
+                    </MovieScreen>
+                </Pressable>
             </View>
 
-            {/* Details */}
-            <SafeAreaView style={{ height: '45%', backgroundColor: UIColors.primary, padding: 10, borderRadius: 30 }}>
-                <View style={{ paddingBottom: 20 }}>
+            {/* Sheet */}
+            <SafeAreaView style={styles.sheet}>
+                <View>
                     <Selection_List<string>
                         list={dateKeys}
                         renderContent={dateCell}
@@ -92,10 +111,11 @@ const MovieDetails = ({ navigation, route }: Props) => {
                         inactiveItemBackgroundColor="white"
                     />
                 </View>
-                <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <View style={{ justifyContent: 'center', alignItems: 'flex-start' }}>
-                        <StyledText fontSize={28} fontWeight='SemiBold'>$160.00</StyledText>
-                        <StyledText fontSize={18} fontWeight='ExtraLight'>2 Tickets</StyledText>
+                {/* Payment Details */}
+                <View style={styles.paymentDetails}>
+                    <View>
+                        <StyledText fontSize={24} fontWeight='SemiBold'>$160.00</StyledText>
+                        <StyledText fontSize={16} fontWeight='Regular'>2 Tickets</StyledText>
                     </View>
                     <MyButton title="Buy Tickets" onPress={() => { }}
                         icon={{ name: 'ticket', size: 30 }}
@@ -108,12 +128,16 @@ const MovieDetails = ({ navigation, route }: Props) => {
 }
 
 const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor: UIColors.secondary
+    },
     dateItem: {
-        height: 80,
-        width: 70,
+        height: 70,
+        width: 65,
         justifyContent: 'center',
         alignItems: 'center',
-        borderRadius: 15,
+        borderRadius: 10,
         padding: 10,
         borderColor: 'grey',
         borderWidth: 1,
@@ -128,6 +152,19 @@ const styles = StyleSheet.create({
         marginHorizontal: 5,
         paddingVertical: 5,
         paddingHorizontal: 10,
+    },
+    sheet: {
+        height: '45%',
+        backgroundColor: UIColors.primary,
+        padding: 15,
+        borderTopLeftRadius: 30,
+        borderTopRightRadius: 30,
+    },
+    paymentDetails: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'flex-end',
+        flex: 1
     }
 
 })

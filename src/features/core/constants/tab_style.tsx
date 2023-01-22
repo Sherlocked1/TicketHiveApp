@@ -62,6 +62,9 @@ const styles = StyleSheet.create({
         paddingHorizontal:15,
         backgroundColor: UIColors.secondary,
         borderTopColor: UIColors.secondary,
+        justifyContent:'center',
+        alignItems:'center',
+        alignContent:'center',
     },
     shadow: {
         elevation: 4,

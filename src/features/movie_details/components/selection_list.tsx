@@ -1,13 +1,13 @@
-import { ReactNode, useState } from "react";
-import { StyleProp, ViewProps, ViewStyle } from "react-native";
-import { Pressable, ScrollView, StyleSheet, Text, View } from "react-native"
+import { ReactNode } from "react";
+import { StyleProp, ViewStyle } from "react-native";
+import { Pressable, ScrollView, StyleSheet } from "react-native"
 import UIColors from "../../core/constants/color_constants";
 
 function Selection_List<ItemT>(props: SelectionListProps<ItemT>) {
 
     const ListItem = (item: ItemT, index: number) => {
         return (
-            <Pressable
+            <Pressable key={index}
                 onPress={()=>{props.onValueChange(index)}}
                 style={[props.itemStyle,{backgroundColor:getBackgroundColor(index)}]}>
                 {props.renderContent(item,index)}

@@ -1,5 +1,6 @@
 import { NavigationProp, useNavigation } from "@react-navigation/native";
 import { FlatList, Image, SafeAreaView, StyleSheet, TouchableOpacity, useWindowDimensions, View } from "react-native";
+import { ScrollView } from "react-native-gesture-handler";
 import { RootStackParams } from "../../../main";
 import { MyField } from "../../core/components/my_field";
 import Neumorphism from "../../core/components/neu_view";
@@ -25,7 +26,8 @@ const Home = () => {
     return (
       <SafeAreaView style={styles.container}>
   
-        <View style={{ padding: 10 }}>
+        <ScrollView style={{ padding: 5,paddingBottom:105 }}>
+
           <StyledText fontSize={24} fontWeight='SemiBold'>
             Good morning ,
           </StyledText>
@@ -49,7 +51,7 @@ const Home = () => {
           
           <FlatList showsHorizontalScrollIndicator={false} keyExtractor={(item)=>item.id.toString()} data={data} horizontal renderItem={(data) => <MovieItem onClick={goToMovie} movie={data.item} width={120} height={200}/> } />
   
-        </View>
+        </ScrollView>
       </SafeAreaView>
     )
   }

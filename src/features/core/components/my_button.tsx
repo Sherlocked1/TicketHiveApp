@@ -7,7 +7,7 @@ import StyledText from "./styled_text";
 
 const MyButton = (props:MyButtonProps) => {
     return (
-        <TouchableOpacity style={[styles.container,{backgroundColor:props.color ?? UIColors.accent}]}>
+        <TouchableOpacity activeOpacity={0.5} style={[styles.container,{backgroundColor:props.color ?? UIColors.accent}]}>
             {props.icon && <Icon name={props.icon.name} size={props.icon.size} color={props.titleColor ?? UIColors.primary}/>}
             <StyledText style={[styles.textStyle,{color:props.titleColor ?? UIColors.primary}]} fontSize={props.fontSize ?? 18} fontWeight={props.fontWeight ?? 'Bold'}>
                 {props.title}

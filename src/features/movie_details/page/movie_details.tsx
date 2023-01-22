@@ -28,11 +28,17 @@ const MovieDetails = ({ navigation, route }: Props) => {
     const dateKeys = Object.keys(datesMap);
 
     const onDateChange = (selectedIndex: number) => {
-        setSelectedDate(selectedIndex);
+        if (selectedDate != selectedIndex) {
+            setSelectedDate(selectedIndex);
+            setSelectedTime(0);
+        }
     }
 
     const onTimeChange = (selectedIndex: number) => {
-        setSelectedTime(selectedIndex);
+        if (selectedTime != selectedIndex) {
+            setSelectedTime(selectedIndex);
+        }
+        
     }
 
     const timeCell = (item: string, index?: number) => {
@@ -44,7 +50,7 @@ const MovieDetails = ({ navigation, route }: Props) => {
 
     const dateCell = (item: string, index?: number) => {
         const color = index == selectedDate ? UIColors.primary : UIColors.secondary
-        const arr = item.split(' '); 
+        const arr = item.split(' ');
 
         return (
             <>
@@ -64,7 +70,7 @@ const MovieDetails = ({ navigation, route }: Props) => {
 
             {/* Details */}
             <SafeAreaView style={{ height: '45%', backgroundColor: UIColors.primary, padding: 10, borderRadius: 30 }}>
-                <View style={{paddingBottom:20}}>
+                <View style={{ paddingBottom: 20 }}>
                     <Selection_List<string>
                         list={dateKeys}
                         renderContent={dateCell}
@@ -73,7 +79,7 @@ const MovieDetails = ({ navigation, route }: Props) => {
                         itemStyle={styles.dateItem}
                         activeItemBackgroundColor='black'
                         inactiveItemBackgroundColor="white"
-                        style={{marginBottom:10}}
+                        style={{ marginBottom: 10 }}
                     />
 
                     <Selection_List<string>
@@ -103,24 +109,25 @@ const MovieDetails = ({ navigation, route }: Props) => {
 
 const styles = StyleSheet.create({
     dateItem: {
-        height:80,
-        width:70,
+        height: 80,
+        width: 70,
         justifyContent: 'center',
         alignItems: 'center',
         borderRadius: 15,
         padding: 10,
-        borderColor:'grey',
-        borderWidth:1,
-        marginHorizontal:5,
+        borderColor: 'grey',
+        borderWidth: 1,
+        marginHorizontal: 5,
     },
     timeItem: {
-        justifyContent:'center',
-        alignItems:'center',
-        borderRadius:20,
-        borderColor:'grey',
-        borderWidth:1,
-        marginHorizontal:5,
-        padding:5,
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: 20,
+        borderColor: 'grey',
+        borderWidth: 1,
+        marginHorizontal: 5,
+        paddingVertical: 5,
+        paddingHorizontal: 10,
     }
 
 })

@@ -1,6 +1,7 @@
 import { NavigationProp, useNavigation } from "@react-navigation/native";
-import { FlatList, Image, SafeAreaView, StyleSheet, TouchableOpacity, useWindowDimensions, View } from "react-native";
+import { FlatList, StyleSheet } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { RootStackParams } from "../../../main";
 import { MyField } from "../../core/components/my_field";
 import Neumorphism from "../../core/components/neu_view";

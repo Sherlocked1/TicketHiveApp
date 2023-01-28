@@ -1,8 +1,11 @@
 import Main from "./src/main";
-
+import {Provider} from 'react-redux'
+import store from "./src/redux/store";
 const App = () => {
   return (
-    <Main />
+    <Provider store={store}>
+      <Main />
+    </Provider>
   )
 }
 

@@ -5,7 +5,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import UIColors from "../../core/constants/color_constants";
 import StyledText from "../../core/components/styled_text";
 import MyButton from "../../core/components/my_button";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Selection_List from "../components/selection_list";
 import { StyleSheet } from "react-native";
 import Video from 'react-native-video';
@@ -31,14 +31,18 @@ const MovieDetails = ({ navigation, route }: Props) => {
         "16 mon": ["12:00", '14:20', "14:00"],
     }
 
-    const seats: Seat[] = useSelector<RootState,Seat[]>((state)=> state.DetailsReducer.seats);
-    const totalPrice:number = useSelector<RootState,number>((state)=>state.DetailsReducer.totalPrice);
+    const seats: Seat[] = useSelector<RootState, Seat[]>((state) => state.DetailsReducer.seats);
+    const totalPrice: number = useSelector<RootState, number>((state) => state.DetailsReducer.totalPrice);
 
-    console.log('seats: ',seats)
+    console.log('seats: ', seats)
 
     const [selectedDate, setSelectedDate] = useState<number>(0);
     const [selectedTime, setSelectedTime] = useState<number>(0);
     const dateKeys = Object.keys(datesMap);
+
+    useEffect(() => {
+        navigation.setOptions({ title: route.params.movie.name })
+    }, [])
 
     const onDateChange = (selectedIndex: number) => {
         if (selectedDate != selectedIndex) {
@@ -80,16 +84,16 @@ const MovieDetails = ({ navigation, route }: Props) => {
 
             {/* Theater */}
             <View style={{ flex: 1 }}>
-                <Pressable style={{ flex: 1 }} onLongPress={openFullScreenPlay}>
-                    {/* <Video source={require('../../../../assets/videos/test.mp4')}
-                        style={{height:120,margin:20}}
+                {/* <Pressable style={{ flex: 1 }} onLongPress={openFullScreenPlay}>
+                    <Video source={require('../../../../assets/videos/test.mp4')}
+                        style={{ height: 120, margin: 20 }}
                         resizeMode='cover'
-                        onError={()=>{}}
-                        onBuffer={()=>{}}
-                    /> */}
+                        onError={() => { }}
+                        onBuffer={() => { }}
+                    />
+                </Pressable> */}
 
-                    <Seatings numberOfRows={3} seats={seats}/>
-                </Pressable>
+                <Seatings numberOfRows={3} seats={seats} />
             </View>
 
             {/* Sheet */}
@@ -101,8 +105,8 @@ const MovieDetails = ({ navigation, route }: Props) => {
                         selectedIndex={selectedDate}
                         onValueChange={onDateChange}
                         itemStyle={styles.dateItem}
-                        activeItemBackgroundColor='black'
-                        inactiveItemBackgroundColor="white"
+                        activeItemBackgroundColor={UIColors.secondary}
+                        inactiveItemBackgroundColor={UIColors.primary}
                         style={{ marginBottom: 10 }}
                     />
 
